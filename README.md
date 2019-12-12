@@ -1324,7 +1324,11 @@ ansj:
 # 全局变量配置方式二 通过配置文件的方式配置,优先级高于es本身的配置
 ansj_config: ansj_library.properties # http,file,jar,class,jdbc 都支持,格式参见ansj_library.properties
 ```
+
 - 配置自定义分词器
+
+**注意**：这里的配置时不会生效的，需要按照这里的配置格式创建自定义analyzer时创建。
+
 ```yaml
 # 配置自定义分词器
 index:
@@ -1332,7 +1336,7 @@ index:
     tokenizer :
       my_dic :
         # 类型支持base_ansj, index_ansj, query_ansj, dic_ansj, nlp_ansj
-        type : dic_ansj   
+        type : dic_ansj
         dic: dic
         stop: stop
         ambiguity: ambiguity
@@ -1347,13 +1351,19 @@ index:
         type: custom
         tokenizer: my_dic
 ```
+
 - http接口
+
   + /_cat/ansj: 执行分词
+  格式如下：/_cat/ansj?text=中国&type=index_ansj&dic=dic&stop=stop&ambiguity=ambiguity&synonyms=synonyms
+  
   + /_cat/ansj/config: 显示全部配置
   + /_ansj/flush/config: 刷新全部配置
   + /_ansj/flush/dic: 更新全部词典。包括用户自定义词典,停用词典,同义词典,歧义词典,crf
+  格式：/_ansj/flush/dic?key=dic_name
 
-### 2.4.2或5.2.0以下:
+### 2.4.2或5.2.0以下
+
 在这里我说一下，在插件里我写了一些默认配置，如果你也可以接受我的默认配置，关于ansj就完全不用配置了，或者只修改你需要的配置。下面的代码目录都是相对es的config目录，有几点需要注意一下:
 
 + ansj的核心词典是和插件一起安装的在插件目录下面
@@ -1387,10 +1397,7 @@ ansj:
     dic: "ext.dic" ## 如果有使用redis的pubsub方式更新词典。如果没有配置，默认使用的是$ES_HOME/config/ansj/dic/user/ext.dic
 ```
 
-
-
-
-* 查询分词
+- 查询分词
 
 可以使用开头我提供的http接口来查看分词效果
 
